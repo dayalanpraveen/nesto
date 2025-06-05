@@ -31,3 +31,13 @@
   - Duplicate passwords are accepted without any warning or validation error.
 - **Improvement Suggestion:**
   - Add a check for password uniqueness and display the specified error message if a duplicate is detected.
+
+## 4. The form field accepts passwords longer than 32 characters
+- **Description:**
+  - The password field currently allows users to enter passwords longer than 32 characters where the password satifies all the given condition (atleast one upper case, one lower case and number).
+- **Expected Behavior:**
+  - The password should be validated to ensure it is between 12 and 32 characters in length. An error message should be shown if the password exceeds 32 characters.
+- **Actual Behavior:**
+  - Passwords longer than 32 characters are accepted without any validation error.
+- **Improvement Suggestion:**
+  - Add validation to restrict the password length to a maximum of 32 characters and display an appropriate error message if exceeded.

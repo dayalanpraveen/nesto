@@ -6,7 +6,7 @@ import { ProvinceCode } from "../support/utils/province-code";
 describe('sign up page', () => {
   beforeEach('navigate to signup page and select the desired language', () => {
     cy.visit('/signup');
-    cy.selectLanguage(Cypress.env("language")|| "en");
+    cy.selectLanguage(Cypress.env("language") || "en");
   })
 
   it('should create account successfully', () => {
@@ -30,12 +30,15 @@ describe('sign up page', () => {
       expectedErrors: [
         { field: 'firstName', message: getMessage('required') },
         { field: 'email', message: getMessage('required') },
+        { field: 'phoneNumber', message: getMessage('required') },
         { field: 'password', message: getMessage('required') },
+        { field: 'confirmPassword', message: getMessage('required') },
+        { field: 'province', message: getMessage('required') }
       ]
     });
   });
 
-  it('should show password weak validation', () => {
+  it('should show password weak validation for less than 12 characters', () => {
     cy.verify_account_creation({
       firstName: 'Alice',
       lastName: 'Smith',
@@ -43,6 +46,66 @@ describe('sign up page', () => {
       phoneNumber: '1234567890',
       password: '123',
       confirmPassword: '123',
+      province: getProvince('Quebec'),
+      expectSuccess: false,
+      expectedErrors: [
+        {
+          field: 'passwordWeak',
+          message: getMessage('weakPassword')
+        }
+      ]
+    });
+
+  })
+
+  it('should show password weak validation for not having atleast one upper case letter', () => {
+    cy.verify_account_creation({
+      firstName: 'Alice',
+      lastName: 'Smith',
+      email: 'alice@example.com',
+      phoneNumber: '1234567890',
+      password: 'm4zq19letrvs',
+      confirmPassword: 'm4zq19letrvs',
+      province: getProvince('Quebec'),
+      expectSuccess: false,
+      expectedErrors: [
+        {
+          field: 'passwordWeak',
+          message: getMessage('weakPassword')
+        }
+      ]
+    });
+
+  })
+
+  it('should show password weak validation for not having atleast one lower case letter', () => {
+    cy.verify_account_creation({
+      firstName: 'Alice',
+      lastName: 'Smith',
+      email: 'alice@example.com',
+      phoneNumber: '1234567890',
+      password: 'X9T7Z4M1QPVA',
+      confirmPassword: 'm4zq19letrvs',
+      province: getProvince('Quebec'),
+      expectSuccess: false,
+      expectedErrors: [
+        {
+          field: 'passwordWeak',
+          message: getMessage('weakPassword')
+        }
+      ]
+    });
+
+  })
+
+    it('should show password weak validation for not having numbers', () => {
+    cy.verify_account_creation({
+      firstName: 'Alice',
+      lastName: 'Smith',
+      email: 'alice@example.com',
+      phoneNumber: '1234567890',
+      password: 'TxvZqLpAmnWE',
+      confirmPassword: 'm4zq19letrvs',
       province: getProvince('Quebec'),
       expectSuccess: false,
       expectedErrors: [
