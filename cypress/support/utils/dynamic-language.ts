@@ -61,16 +61,44 @@ const messages = {
 }
 };
 
+/**
+ * 
+ * @param key - The key for the message to retrieve.
+ * @description Retrieves a message based on the current language set in Cypress environment variables.
+ * If no language is set, defaults to English ('en').
+ * @example
+ * getMessage('required'); // Returns 'Required' if language is 'en', or 'Requis' if language is 'fr'.
+ * 
+ * @returns 
+ */
 export function getMessage(key: keyof typeof messages['en']): string {
   const lang = Cypress.env('language') || 'en';
   return messages[lang][key];
 }
 
+/**
+ * Retrieves a label based on the current language set in Cypress environment variables.
+ * If no language is set, defaults to English ('en').
+ * 
+ * @param key - The key for the label to retrieve.
+ * @returns The label string for the specified key in the current language.
+ * @example
+ * getLabel('firstName'); // Returns 'First name' if language is 'en', or 'Prénom' if language is 'fr'.
+ */
 export function getLabel(key: keyof typeof messages['en']['labels']): string {
   const lang = Cypress.env('language') || 'en';
   return messages[lang].labels[key];
 }
 
+/**
+ * Retrieves the province name based on the current language set in Cypress environment variables.
+ * If no language is set, defaults to English ('en').
+ * 
+ * @param name - The key for the province to retrieve.
+ * @returns The province name string for the specified key in the current language.
+ * @example
+ * getProvince('Ontario'); // Returns 'Ontario' if language is 'en', or 'Ontario' if language is 'fr'.
+ */
 export function getProvince(name: keyof typeof messages['en']['provinces']): string {
   const lang = Cypress.env('language') || 'en';
   return messages[lang].provinces[name];
