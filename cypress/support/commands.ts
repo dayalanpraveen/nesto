@@ -37,7 +37,9 @@ type ValidationError = {
     | 'province'
     | 'passwordWeak'
     | 'passwordDoNotMatch'
-    | 'invalidEmail';
+    | 'invalidEmail'
+    | 'accountAlreadyExists'
+    | 'genericError';
   message: string;
 };
 
@@ -45,10 +47,11 @@ type AccountFormData = {
   firstName?: string;
   lastName?: string;
   email?: string;
-  phoneNumber?: number;
+  phoneNumber?: string;
   password?: string;
   confirmPassword?: string;
   province?: string;
+  provinceCode?: string; // Optional field for province code
   expectSuccess: boolean;
   expectedErrors?: ValidationError[];
 };

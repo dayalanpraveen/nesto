@@ -4,6 +4,8 @@ const messages = {
     weakPassword: 'Your password is too weak',
     passwordNoMatch: 'Your passwords do not match',
     invalidEmail: 'Invalid email address',
+    accountAlreadyEXists: 'Account already exists',
+    genericError: 'Something\'s not right here. Please give us a call at 1-833-452-3541 to continue.',
     success: 'Account created successfully',
     labels: {
       firstName: 'First name',
@@ -32,6 +34,8 @@ const messages = {
     weakPassword: 'Veuillez choisir un mot de passe plus sûr',
     passwordNoMatch: 'Vos mots de passe ne correspondent pas.',
     invalidEmail: 'Courriel invalide',
+    accountAlreadyEXists: 'Le compte existe déjà',
+    genericError: 'Il semble y avoir un petit problème. Pour poursuivre, veuillez nous appeler au 1-833-452-3267',
     success: 'Compte créé avec succès',
     labels: {
       firstName: 'Prénom',

@@ -1,6 +1,7 @@
 import { getFirstName, getFirstNameLabel, getLastName, getLastNameLabel, getEmail, getEmailLabel, getpassword, getPasswordLabel, getConfirmPassword, getConfirmPasswordLabel, getPhoneNumber, getPhoneNumberLabel, getProvincedrpDown, getProvinceLabel } from "../support/locators/signup.locators";
 import { generateRandomUser } from "../support/utils/testData";
 import { getMessage, getLabel, getProvince } from "../support/utils/dynamicLanguage";
+import { ProvinceCode } from "../support/utils/provinceCode";
 
 describe('sign up page', () => {
   beforeEach('landing', () => {
@@ -14,10 +15,11 @@ describe('sign up page', () => {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      phoneNumber: 9876543210,
+      phoneNumber: "987-654-3210",
       password: 'StrongPass123!',
       confirmPassword: 'StrongPass123!',
-      province: 'Ontario',
+      province: getProvince('Ontario'),
+      provinceCode: ProvinceCode.Ontario,
       expectSuccess: true
     });
   });
@@ -38,7 +40,7 @@ describe('sign up page', () => {
       firstName: 'Alice',
       lastName: 'Smith',
       email: 'alice@example.com',
-      phoneNumber: 1234567890,
+      phoneNumber: '1234567890',
       password: '123',
       confirmPassword: '123',
       province: getProvince('Quebec'),
@@ -58,7 +60,7 @@ describe('sign up page', () => {
       firstName: 'Alice',
       lastName: 'Smith',
       email: 'alice@example.com',
-      phoneNumber: 1234567890,
+      phoneNumber: '1234567890',
       password: '123',
       confirmPassword: '12',
       province: getProvince('Quebec'),
@@ -78,7 +80,7 @@ describe('sign up page', () => {
       firstName: 'Alice',
       lastName: 'Smith',
       email: 'invalid-email',
-      phoneNumber: 1234567890,
+      phoneNumber: '1234567890',
       password: '123',
       confirmPassword: '12',
       province: getProvince('Quebec'),
@@ -93,7 +95,46 @@ describe('sign up page', () => {
 
   })
 
+  it('should show account already exists validation', () => {
+    cy.verify_account_creation({
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'johne@example.com',
+      phoneNumber: '1234567890',
+      password: 'Lexus@rh450h+',
+      confirmPassword: 'Lexus@rh450h+',
+      province: getProvince('Ontario'),
+      expectSuccess: false,
+      expectedErrors: [
+        {
+          field: 'accountAlreadyExists',
+          message: getMessage('accountAlreadyEXists')
+        }
+      ]
+    });
 
+  })
+
+  it('should throw generic error validation for whitespace', () => {
+    const user = generateRandomUser();
+    cy.verify_account_creation({
+      firstName: " ",
+      lastName: user.lastName,
+      email: user.email,
+      phoneNumber: "987-654-3210",
+      password: 'StrongPass123!',
+      confirmPassword: 'StrongPass123!',
+      province: getProvince('Ontario'),
+      provinceCode: ProvinceCode.Ontario,
+      expectSuccess: false,
+      expectedErrors: [
+        {
+          field: 'genericError',
+          message: getMessage('genericError')
+        }
+      ]
+    });
+  });
 
   it('should validate fields and labels', () => {
     const fieldsToCheck = [

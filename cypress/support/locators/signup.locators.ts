@@ -26,6 +26,10 @@ export const getPasswordDoNotMatchValidation = () => cy.get('[data-test-id="vali
 
 export const getEmailValidation = () => cy.get('[data-test-id="validation_errors_invalidEmail"');
 
+export const getAccountAlreadyExistsValidation = () => cy.get('[data-test-id="toasts_duplicateAccount_title"]');
+
+export const getGenericErrorValidation = () => cy.get('[data-test-id="toasts_genericError"]');
+
 export const getFirstNameLabel = () => cy.get('[data-test-id="input_label-firstName"]');
 
 export const getLastNameLabel = () => cy.get('[data-test-id="input_label-lastName"]');

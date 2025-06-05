@@ -1,4 +1,4 @@
-import { getAgreeCheckBox, getConfirmPassword, getCreateAccountButton, getEmail, getEmailValidation, getFirstName, getLastName, getpassword, getPasswordDoNotMatchValidation, getPasswordWeakValidation, getPhoneNumber, getProvincedrpDown, getToggleLanguage, getValidationError, selectProvince } from "../locators/signup.locators"
+import { getAccountAlreadyExistsValidation, getAgreeCheckBox, getConfirmPassword, getCreateAccountButton, getEmail, getEmailValidation, getFirstName, getGenericErrorValidation, getLastName, getpassword, getPasswordDoNotMatchValidation, getPasswordWeakValidation, getPhoneNumber, getProvincedrpDown, getToggleLanguage, getValidationError, selectProvince } from "../locators/signup.locators"
 
 type ValidationError = {
   field:
@@ -9,7 +9,11 @@ type ValidationError = {
   | 'password'
   | 'confirmPassword'
   | 'province'
-  | 'passwordWeak';
+  | 'passwordWeak'
+  | 'passwordDoNotMatch'
+  | 'invalidEmail'
+  | 'accountAlreadyExists'
+  | 'genericError'; 
   message: string;
 };
 
@@ -17,10 +21,11 @@ type AccountFormData = {
   firstName?: string;
   lastName?: string;
   email?: string;
-  phoneNumber?: number;
+  phoneNumber?: string;
   password?: string;
   confirmPassword?: string;
   province?: string;
+  provinceCode?: string; // Optional field for province code
   expectSuccess: boolean;
   expectedErrors?: ValidationError[];
 };
@@ -50,7 +55,9 @@ const fieldErrorSelectors: Record<string, () => Cypress.Chainable<JQuery<HTMLEle
   province: () => getValidationError(),
   passwordWeak: () => getPasswordWeakValidation(),
   passwordDoNotMatch: () => getPasswordDoNotMatchValidation(),
-  invalidEmail: () => getEmailValidation()
+  invalidEmail: () => getEmailValidation(),
+  accountAlreadyExists: () => getAccountAlreadyExistsValidation(),
+  genericError: () => getGenericErrorValidation()
 };
 
 
@@ -89,11 +96,16 @@ Cypress.Commands.add('verify_account_creation', (data: AccountFormData) => {
 
   cy.waitForIntercept('/api/accounts', 'createAccount', 'POST');
   getCreateAccountButton().click();
-
+  
   if (data.expectSuccess) {
-    cy.wait('@createAccount')
-      .its('response.statusCode')
-      .should('eq', 201);
+    cy.wait('@createAccount').then((interception) => {
+      expect(interception.response.statusCode).to.eq(201);
+      expect(interception.response.body.account).to.have.property('firstName', data.firstName);
+      expect(interception.response.body.account).to.have.property('lastName', data.lastName);
+      expect(interception.response.body.account).to.have.property('email', data.email);
+      expect(interception.response.body.account).to.have.property('phone', data.phoneNumber);
+      expect(interception.response.body.account).to.have.property('region', data.provinceCode);
+    });
   } else if (data.expectedErrors) {
     data.expectedErrors.forEach((error) => {
       const getErrorElement = fieldErrorSelectors[error.field];
