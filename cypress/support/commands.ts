@@ -26,35 +26,8 @@ export {};
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
-type ValidationError = {
-  field:
-    | 'firstName'
-    | 'lastName'
-    | 'email'
-    | 'phoneNumber'
-    | 'password'
-    | 'confirmPassword'
-    | 'province'
-    | 'passwordWeak'
-    | 'passwordDoNotMatch'
-    | 'invalidEmail'
-    | 'accountAlreadyExists'
-    | 'genericError';
-  message: string;
-};
 
-type AccountFormData = {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  phoneNumber?: string;
-  password?: string;
-  confirmPassword?: string;
-  province?: string;
-  provinceCode?: string; // Optional field for province code
-  expectSuccess: boolean;
-  expectedErrors?: ValidationError[];
-};
+import { AccountFormData } from '../support/types/account-form.type';
 
 declare global {
   namespace Cypress {

@@ -1,0 +1,33 @@
+# Bug Reports
+
+## 1. The form field accepts white space
+- **Description:**
+  - The form fields (e.g., first name, last name, email, etc.) currently accept input that consists only of white space characters.
+- **Expected Behavior:**
+  - Validation should be triggered immediately (on blur or input), and an error message should be shown without requiring the user to click the "Create Account" button.
+- **Actual Behavior:**
+  - No validation is shown for white space-only input until the form is submitted.
+- **Steps to Reproduce:**
+  1. Enter only spaces in any required form field.
+  2. Move focus away from the field.
+  3. Observe that no validation error is shown.
+
+## 2. The form field accepts duplicate phone numbers
+- **Description:**
+  - The phone number field allows users to enter a phone number that is already registered in the system.
+- **Expected Behavior:**
+  - The system should check for uniqueness of the phone number and display a validation error if the number is already in use.
+- **Actual Behavior:**
+  - Duplicate phone numbers can be submitted and accepted.
+- **Improvement Suggestion:**
+  - Implement a uniqueness check for the phone number field and show an appropriate error message if a duplicate is detected.
+
+## 3. The form field accepts duplicate passwords
+- **Description:**
+  - The password field allows users to choose a password that has already been used by another account.
+- **Expected Behavior:**
+  - A validation error should be shown: "This password is already chosen, please select a new one."
+- **Actual Behavior:**
+  - Duplicate passwords are accepted without any warning or validation error.
+- **Improvement Suggestion:**
+  - Add a check for password uniqueness and display the specified error message if a duplicate is detected.

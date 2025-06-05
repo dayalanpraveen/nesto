@@ -1,12 +1,12 @@
 import { getFirstName, getFirstNameLabel, getLastName, getLastNameLabel, getEmail, getEmailLabel, getpassword, getPasswordLabel, getConfirmPassword, getConfirmPasswordLabel, getPhoneNumber, getPhoneNumberLabel, getProvincedrpDown, getProvinceLabel } from "../support/locators/signup.locators";
-import { generateRandomUser } from "../support/utils/testData";
-import { getMessage, getLabel, getProvince } from "../support/utils/dynamicLanguage";
-import { ProvinceCode } from "../support/utils/provinceCode";
+import { generateRandomUser } from "../support/utils/test-data";
+import { getMessage, getLabel, getProvince } from "../support/utils/dynamic-language";
+import { ProvinceCode } from "../support/utils/province-code";
 
 describe('sign up page', () => {
-  beforeEach('landing', () => {
+  beforeEach('navigate to signup page and select the desired language', () => {
     cy.visit('/signup');
-    cy.selectLanguage(Cypress.env("language"));
+    cy.selectLanguage(Cypress.env("language")|| "en");
   })
 
   it('should create account successfully', () => {

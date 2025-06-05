@@ -1,34 +1,6 @@
 import { getAccountAlreadyExistsValidation, getAgreeCheckBox, getConfirmPassword, getCreateAccountButton, getEmail, getEmailValidation, getFirstName, getGenericErrorValidation, getLastName, getpassword, getPasswordDoNotMatchValidation, getPasswordWeakValidation, getPhoneNumber, getProvincedrpDown, getToggleLanguage, getValidationError, selectProvince } from "../locators/signup.locators"
 
-type ValidationError = {
-  field:
-  | 'firstName'
-  | 'lastName'
-  | 'email'
-  | 'phoneNumber'
-  | 'password'
-  | 'confirmPassword'
-  | 'province'
-  | 'passwordWeak'
-  | 'passwordDoNotMatch'
-  | 'invalidEmail'
-  | 'accountAlreadyExists'
-  | 'genericError'; 
-  message: string;
-};
-
-type AccountFormData = {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  phoneNumber?: string;
-  password?: string;
-  confirmPassword?: string;
-  province?: string;
-  provinceCode?: string; // Optional field for province code
-  expectSuccess: boolean;
-  expectedErrors?: ValidationError[];
-};
+import { AccountFormData } from "../types/account-form.type";
 
 /**
  * A mapping of form field names to functions that return Cypress chainables for their corresponding validation error elements.
