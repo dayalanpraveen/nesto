@@ -1,4 +1,4 @@
-import { getFirstName, getFirstNameLabel, getLastName, getLastNameLabel, getEmail, getEmailLabel, getpassword, getPasswordLabel, getConfirmPassword, getConfirmPasswordLabel, getPhoneNumber, getPhoneNumberLabel, getProvincedrpDown, getProvinceLabel } from "../support/locators/signup.locators";
+import { getFirstName, getFirstNameLabel, getLastName, getLastNameLabel, getEmail, getEmailLabel, getpassword, getPasswordLabel, getConfirmPassword, getConfirmPasswordLabel, getPhoneNumber, getPhoneNumberLabel, getProvincedrpDown, getProvinceLabel } from "../support/locators/sign-up.locators";
 import { generateRandomUser } from "../support/utils/test-data";
 import { getMessage, getLabel, getProvince } from "../support/utils/dynamic-language";
 import { ProvinceCode } from "../support/utils/province-code";

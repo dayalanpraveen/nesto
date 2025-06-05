@@ -1,4 +1,4 @@
-import { getAccountAlreadyExistsValidation, getAgreeCheckBox, getConfirmPassword, getCreateAccountButton, getEmail, getEmailValidation, getFirstName, getGenericErrorValidation, getLastName, getpassword, getPasswordDoNotMatchValidation, getPasswordWeakValidation, getPhoneNumber, getProvincedrpDown, getToggleLanguage, getValidationError, selectProvince } from "../locators/signup.locators"
+import { getAccountAlreadyExistsValidation, getAgreeCheckBox, getConfirmPassword, getCreateAccountButton, getEmail, getEmailValidation, getFirstName, getGenericErrorValidation, getLastName, getpassword, getPasswordDoNotMatchValidation, getPasswordWeakValidation, getPhoneNumber, getProvincedrpDown, getToggleLanguage, getValidationError, selectProvince } from "../locators/sign-up.locators"
 
 import { AccountFormData } from "../types/account-form.type";
 
@@ -32,6 +32,47 @@ const fieldErrorSelectors: Record<string, () => Cypress.Chainable<JQuery<HTMLEle
   genericError: () => getGenericErrorValidation()
 };
 
+/**
+ * Custom Cypress command to verify account creation by filling out the account creation form,
+ * clicking the submit button, and validating the outcome based on `expectSuccess` or `expectedErrors`.
+ *
+ * @function verify_account_creation
+ * @param {AccountFormData} data - An object containing form field values and validation expectations.
+ * 
+ * @param {string} [data.firstName] - First name to enter and verify.
+ * @param {string} [data.lastName] - Last name to enter and verify.
+ * @param {string} [data.email] - Email address to enter and verify.
+ * @param {string|number} [data.phoneNumber] - Phone number to enter (as string or number).
+ * @param {string} [data.password] - Password to enter (typed silently).
+ * @param {string} [data.confirmPassword] - Confirm password (typed silently).
+ * @param {string} [data.province] - Province to select from dropdown.
+ * @param {string} [data.provinceCode] - Code of the selected province (used for API validation).
+ * @param {boolean} [data.expectSuccess] - If true, validates successful API response after form submission.
+ * @param {{field: string, message: string}[]} [data.expectedErrors] - Array of expected field-level errors to validate.
+ *
+ * @example
+ * cy.verify_account_creation({
+ *   firstName: 'John',
+ *   lastName: 'Doe',
+ *   email: 'john.doe@example.com',
+ *   phoneNumber: '1234567890',
+ *   password: 'Test@123',
+ *   confirmPassword: 'Test@123',
+ *   province: 'Quebec',
+ *   provinceCode: 'QC',
+ *   expectSuccess: true
+ * });
+ *
+ * @example
+ * cy.verify_account_creation({
+ *   email: '',
+ *   password: '',
+ *   expectedErrors: [
+ *     { field: 'email', message: 'Email is required' },
+ *     { field: 'password', message: 'Password is required' }
+ *   ]
+ * });
+ */
 
 Cypress.Commands.add('verify_account_creation', (data: AccountFormData) => {
   if (data.firstName) {
@@ -89,17 +130,39 @@ Cypress.Commands.add('verify_account_creation', (data: AccountFormData) => {
   }
 });
 
+/**
+ * Custom Cypress command to verify that a form field and its corresponding label are visible and correctly labeled.
+ *
+ * @function verifyFieldAndLabel
+ * @param {() => Cypress.Chainable} getField - A function returning the Cypress chainable for the input field.
+ * @param {() => Cypress.Chainable} getLabel - A function returning the Cypress chainable for the label element.
+ * @param {string} expectedLabel - The expected text content of the label.
+ *
+ * @example
+ * cy.verifyFieldAndLabel(getEmailField, getEmailLabel, 'Email Address');
+ */
+
 Cypress.Commands.add('verifyFieldAndLabel', (getField: () => Cypress.Chainable, getLabel: () => Cypress.Chainable, expectedLabel: string) => {
   getField().should('exist').and('be.visible');
   getLabel().should('exist').and('contain.text', expectedLabel);
 });
 
 
+/**
+ * Custom Cypress command to select a language based on the provided string.
+ * If the language is 'fr', it clicks the toggle language button to switch to French.
+ * Otherwise, it logs that the default language is English.
+ *
+ * @function selectLanguage
+ * @param {string} language - The language to select ('fr' for French).
+ *
+ * @example
+ * cy.selectLanguage('fr');
+ */
 Cypress.Commands.add('selectLanguage', (language: string) => {
   if (language === 'fr') {
     getToggleLanguage().click();
   } else {
     cy.log('Default language is English');
   }
-
 })
