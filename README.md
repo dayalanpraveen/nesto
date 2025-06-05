@@ -29,6 +29,12 @@ This repository contains end-to-end (E2E) tests for the nesto application using 
 ```sh
 npx cypress open
 ```
+### Open Cypress Test Runner (Interactive Mode) for running in language French
+
+```sh
+npx cypress open --env language=fr
+```
+
 NOTE: By default, the test triggered will take the english language as default. Handling of multiple languages is done in the headless mode by using the Cypress.env variable. 
 
 This will launch the Cypress Test Runner UI, where you can select and run tests interactively.
